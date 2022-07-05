@@ -1,10 +1,17 @@
 <template>
-  <h1>Hello World!</h1>
+  <Main :username="username" />
 </template>
 
 <script>
+import Main from "../components/Main.vue";
+
 export default {
-  name: "StarredView",
-  components: {},
+  name: "AboutView",
+  props: {
+    username: String,
+  },
+  components: {
+    Main,
+  },
 };
 </script>
