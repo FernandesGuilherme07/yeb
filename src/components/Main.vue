@@ -1,5 +1,3 @@
-<!--eslint-disable vue/no-mutating-props
---->
 <template>
   <main>
     <Profile
@@ -21,13 +19,13 @@
               style="border-right: none"
             />
             <div class="input-group-append">
-              <button
+              <div
                 type="submit"
                 class="input-group-text"
                 style="background-color: #fff"
               >
                 <i class="fas fa-search"></i>
-              </button>
+              </div>
             </div>
           </div>
         </form>
@@ -122,8 +120,7 @@ input {
   padding: 0;
   border-left: 1px solid grey;
 }
-div .input-group-append:hover,
-button {
+div .input-group-append:hover {
   cursor: pointer;
 }
 
