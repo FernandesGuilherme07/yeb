@@ -24,6 +24,7 @@ export default {
   data() {
     return {
       programmingLanguageTag: "<>",
+      urlRepo: this.repos.html_url,
     };
   },
   props: {

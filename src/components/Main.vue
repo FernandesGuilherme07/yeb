@@ -2,38 +2,57 @@
 --->
 <template>
   <main>
+    <Profile
+      :username="username"
+      :userAvatar="userAvatar"
+      :infoUser="infoUser"
+    />
     <section>
-      <Profile
-        :username="username"
-        :userAvatar="userAvatar"
-        :infoUser="infoUser"
-      />
-      <nav>
-        <router-link to="/">Repo</router-link>
-        <router-link to="/starred">Starred</router-link>
-      </nav>
-
-      <Input />
+      <Nav />
+      <div class="input">
+        <form class="col-sm-3 my-1 content">
+          <div class="input-group">
+            <input
+              class="form-control"
+              v-model="search"
+              type="search"
+              placeholder="search repo"
+              aria-label="Search"
+              style="border-right: none"
+            />
+            <div class="input-group-append">
+              <button
+                type="submit"
+                class="input-group-text"
+                style="background-color: #fff"
+              >
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
 
       <Repositorie
         :username="username"
-        :repos="filterStarred"
+        :repos="filterStarredReposInput"
         v-if="this.$route.path === '/starred'"
       />
-      <Repositorie :username="username" :repos="repos" v-else />
+      <Repositorie :username="username" :repos="filterAllReposInput" v-else />
     </section>
   </main>
 </template>
 
 <script>
-import Input from "./InputText.vue";
 import Repositorie from "./Repositories.vue";
 import Profile from "./Profile.vue";
+import Nav from "./Nav.vue";
 
 export default {
   name: "Main",
   data() {
     return {
+      search: "",
       infoUser: {},
       repos: [],
       userAvatar: `https://github.com/${this.username}.png`,
@@ -54,16 +73,22 @@ export default {
       filteredRepos = this.repos.filter((repo) => {
         return repo.stargazers_count > 0;
       });
-      console.log(filteredRepos);
       return filteredRepos;
     },
+    filterStarredReposInput() {
+      if (!this.search) return this.filterStarred;
+      return this.filterStarred.filter((e) => e.name.includes(this.search));
+    },
+    filterAllReposInput() {
+      if (!this.search) return this.repos;
+      return this.repos.filter((e) => e.name.includes(this.search));
+    },
   },
-
   props: {
     username: String,
   },
   components: {
-    Input,
+    Nav,
     Repositorie,
     Profile,
   },
@@ -82,6 +107,26 @@ main section {
   flex: 9;
 }
 
+.input {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.content,
+.input-group,
+input {
+  min-width: 50%;
+}
+.input-group-append {
+  padding: 0;
+  border-left: 1px solid grey;
+}
+div .input-group-append:hover,
+button {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 966px) {
   main {
     flex-direction: column;
@@ -94,6 +139,12 @@ main section {
   main article img[data-v-54d3a52e] {
     width: 70px;
     border-radius: 50%;
+  }
+  .content,
+  .input-group,
+  input {
+    min-width: 80%;
+    max-width: 95%;
   }
   .description {
     display: none;
