@@ -75,11 +75,15 @@ export default {
     },
     filterStarredReposInput() {
       if (!this.search) return this.filterStarred;
-      return this.filterStarred.filter((e) => e.name.includes(this.search));
+      return this.filterStarred.filter((e) =>
+        e.name.toLowerCase().includes(this.search.toLowerCase())
+      );
     },
     filterAllReposInput() {
       if (!this.search) return this.repos;
-      return this.repos.filter((e) => e.name.includes(this.search));
+      return this.repos.filter((e) =>
+        e.name.toLowerCase().includes(this.search.toLowerCase())
+      );
     },
   },
   props: {
